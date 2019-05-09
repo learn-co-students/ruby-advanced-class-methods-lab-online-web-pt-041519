@@ -37,18 +37,39 @@ class Song
           return song
       end
     end
-    false
+    nil
   end
   
   def self.find_or_create_by_name(name_of_song)
     return_value = Song.find_by_name(name_of_song)
-      if return_value == false
-        binding.pry
+      if !return_value
         Song.create_by_name(name_of_song)
       else
         return return_value
       end
   end
   
+  def self.alphabetical
+    Song.all.sort_by { |obj| obj.name }
+  end
   
+  def self.new_from_filename(filename)
+    filename_array = filename.split(/( )(-)( )|(.mp3)/)
+    song = self.new
+    song.artist_name = filename_array[0]
+    song.name = filename_array[4]
+    return song
+  end
+  
+  def self.create_from_filename(filename)
+    filename_array = filename.split(/( )(-)( )|(.mp3)/)
+    song = self.new
+    song.artist_name = filename_array[0]
+    song.name = filename_array[4]
+    song.save
+  end
+  
+  def self.destroy_all
+    self.all.clear
+  end
 end
