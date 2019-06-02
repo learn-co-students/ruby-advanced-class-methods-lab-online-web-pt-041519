@@ -11,3 +11,10 @@ class Song
   end
 
 end
+
+def self.create
+  new_song = Song.new
+  new_song.save
+end
+ 
+
